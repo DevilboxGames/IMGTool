@@ -1,0 +1,10 @@
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\bin\Debug\IMGTool.exe
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\bin\Debug\IMGTool.pdb
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\obj\Debug\IMGTool.csproj.CoreCompileInputs.cache
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\obj\Debug\IMGTool.exe
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\obj\Debug\IMGTool.pdb
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\bin\Debug\IMGToolLib.dll
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\bin\Debug\IMGToolLib.pdb
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\bin\Debug\IMGToolLib.dll.config
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\obj\Debug\IMGTool.csprojAssemblyReference.cache
+F:\Work\ReincarnationTools\IMGTool\IMGTool\IMGTool\obj\Debug\IMGTool.csproj.CopyComplete
