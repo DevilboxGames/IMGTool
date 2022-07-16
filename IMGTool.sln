@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMGTool", "IMGTool\IMGTool.csproj", "{D80D5641-7469-41F4-845B-BBC7CA3169A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMGToolLib", "IMGToolLib\IMGToolLib.csproj", "{925A73FC-2799-45B4-844B-BB8034DC7DF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMGTests", "IMGTests\IMGTests.csproj", "{DADBB94F-426B-44A8-ABC5-3D8D51628E1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{925A73FC-2799-45B4-844B-BB8034DC7DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{925A73FC-2799-45B4-844B-BB8034DC7DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{925A73FC-2799-45B4-844B-BB8034DC7DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DADBB94F-426B-44A8-ABC5-3D8D51628E1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DADBB94F-426B-44A8-ABC5-3D8D51628E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DADBB94F-426B-44A8-ABC5-3D8D51628E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DADBB94F-426B-44A8-ABC5-3D8D51628E1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

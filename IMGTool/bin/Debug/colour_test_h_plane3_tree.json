@@ -1,0 +1,146 @@
+{
+  "Symbol": 0,
+  "Frequency": 4096,
+  "Left": {
+    "Symbol": 0,
+    "Frequency": 1536,
+    "Left": {
+      "Symbol": 0,
+      "Frequency": 768,
+      "Left": {
+        "Symbol": 64,
+        "Frequency": 384,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 204,
+        "Frequency": 384,
+        "Left": null,
+        "Right": null
+      }
+    },
+    "Right": {
+      "Symbol": 0,
+      "Frequency": 768,
+      "Left": {
+        "Symbol": 217,
+        "Frequency": 384,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 230,
+        "Frequency": 384,
+        "Left": null,
+        "Right": null
+      }
+    }
+  },
+  "Right": {
+    "Symbol": 0,
+    "Frequency": 2560,
+    "Left": {
+      "Symbol": 0,
+      "Frequency": 1024,
+      "Left": {
+        "Symbol": 242,
+        "Frequency": 384,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 0,
+        "Frequency": 640,
+        "Left": {
+          "Symbol": 0,
+          "Frequency": 320,
+          "Left": {
+            "Symbol": 0,
+            "Frequency": 128,
+            "Left": {
+              "Symbol": 185,
+              "Frequency": 64,
+              "Left": null,
+              "Right": null
+            },
+            "Right": {
+              "Symbol": 193,
+              "Frequency": 64,
+              "Left": null,
+              "Right": null
+            }
+          },
+          "Right": {
+            "Symbol": 0,
+            "Frequency": 192,
+            "Left": {
+              "Symbol": 201,
+              "Frequency": 64,
+              "Left": null,
+              "Right": null
+            },
+            "Right": {
+              "Symbol": 0,
+              "Frequency": 128,
+              "Left": {
+                "Symbol": 169,
+                "Frequency": 64,
+                "Left": null,
+                "Right": null
+              },
+              "Right": {
+                "Symbol": 177,
+                "Frequency": 64,
+                "Left": null,
+                "Right": null
+              }
+            }
+          }
+        },
+        "Right": {
+          "Symbol": 191,
+          "Frequency": 320,
+          "Left": null,
+          "Right": null
+        }
+      }
+    },
+    "Right": {
+      "Symbol": 0,
+      "Frequency": 1536,
+      "Left": {
+        "Symbol": 0,
+        "Frequency": 768,
+        "Left": {
+          "Symbol": 13,
+          "Frequency": 384,
+          "Left": null,
+          "Right": null
+        },
+        "Right": {
+          "Symbol": 26,
+          "Frequency": 384,
+          "Left": null,
+          "Right": null
+        }
+      },
+      "Right": {
+        "Symbol": 0,
+        "Frequency": 768,
+        "Left": {
+          "Symbol": 38,
+          "Frequency": 384,
+          "Left": null,
+          "Right": null
+        },
+        "Right": {
+          "Symbol": 51,
+          "Frequency": 384,
+          "Left": null,
+          "Right": null
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+﻿.vs
+packages
+IMGToolLib/obj
+IMGTool/obj
+IMGTests/obj
+IMGTests/bin

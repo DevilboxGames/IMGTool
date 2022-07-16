@@ -1,0 +1,86 @@
+{
+  "Symbol": 0,
+  "Frequency": 4096,
+  "Left": {
+    "Symbol": 0,
+    "Frequency": 1806,
+    "Left": {
+      "Symbol": 0,
+      "Frequency": 882,
+      "Left": {
+        "Symbol": 217,
+        "Frequency": 441,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 242,
+        "Frequency": 441,
+        "Left": null,
+        "Right": null
+      }
+    },
+    "Right": {
+      "Symbol": 0,
+      "Frequency": 924,
+      "Left": {
+        "Symbol": 26,
+        "Frequency": 462,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 206,
+        "Frequency": 462,
+        "Left": null,
+        "Right": null
+      }
+    }
+  },
+  "Right": {
+    "Symbol": 0,
+    "Frequency": 2290,
+    "Left": {
+      "Symbol": 0,
+      "Frequency": 924,
+      "Left": {
+        "Symbol": 229,
+        "Frequency": 462,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 230,
+        "Frequency": 462,
+        "Left": null,
+        "Right": null
+      }
+    },
+    "Right": {
+      "Symbol": 0,
+      "Frequency": 1366,
+      "Left": {
+        "Symbol": 218,
+        "Frequency": 484,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 0,
+        "Frequency": 882,
+        "Left": {
+          "Symbol": 13,
+          "Frequency": 441,
+          "Left": null,
+          "Right": null
+        },
+        "Right": {
+          "Symbol": 38,
+          "Frequency": 441,
+          "Left": null,
+          "Right": null
+        }
+      }
+    }
+  }
+}

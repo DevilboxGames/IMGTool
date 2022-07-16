@@ -1,0 +1,56 @@
+{
+  "Symbol": 0,
+  "Frequency": 4096,
+  "Left": {
+    "Symbol": 0,
+    "Frequency": 1806,
+    "Left": {
+      "Symbol": 217,
+      "Frequency": 903,
+      "Left": null,
+      "Right": null
+    },
+    "Right": {
+      "Symbol": 242,
+      "Frequency": 903,
+      "Left": null,
+      "Right": null
+    }
+  },
+  "Right": {
+    "Symbol": 0,
+    "Frequency": 2290,
+    "Left": {
+      "Symbol": 230,
+      "Frequency": 946,
+      "Left": null,
+      "Right": null
+    },
+    "Right": {
+      "Symbol": 0,
+      "Frequency": 1344,
+      "Left": {
+        "Symbol": 26,
+        "Frequency": 462,
+        "Left": null,
+        "Right": null
+      },
+      "Right": {
+        "Symbol": 0,
+        "Frequency": 882,
+        "Left": {
+          "Symbol": 13,
+          "Frequency": 441,
+          "Left": null,
+          "Right": null
+        },
+        "Right": {
+          "Symbol": 38,
+          "Frequency": 441,
+          "Left": null,
+          "Right": null
+        }
+      }
+    }
+  }
+}
