@@ -155,7 +155,7 @@ namespace IMGTool
             //Bitmap bmp = new Bitmap(inputPath);
             //img.ImportFromBitmap(bmp, Compression, forceNoAlpha);
             //img.Save(outputPath);
-            IMGToolLib.IMGTool.ConvertFromIMG(inputPath, outputPath, CompressionMethod.None);
+            IMGToolLib.IMGTool.ConvertFromIMG(inputPath, outputPath);
         }
 
         static void ScrapeIMGFormats(string folder)

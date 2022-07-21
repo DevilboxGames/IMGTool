@@ -94,13 +94,12 @@ namespace IMGToolLib
 	        Parallel.ForEach(paths,
 		        (s, state, i) =>
 		        {
-			        ConvertFromIMG(s, Path.Combine(outputPath, Path.GetFileNameWithoutExtension(s) + ".PNG"),
-				        CompressionMethod.Huffman);
+			        ConvertFromIMG(s, Path.Combine(outputPath, Path.GetFileNameWithoutExtension(s) + ".PNG"));
 		        });
 
         }
-
-        public static void ConvertFromIMG(string[] inputPath, string outputPath, CompressionMethod compression)
+        /*
+        public static void ConvertFromIMG(string[] inputPath, string outputPath)
         {
 
 
@@ -117,16 +116,15 @@ namespace IMGToolLib
 		        imgnum++;
 	        }
 
-	        Parallel.ForEach(paths, (s, state, i) => { ConvertFromIMG(s, Path.Combine(outputPath, Path.GetFileNameWithoutExtension(s) + ".PNG"), compression); });
+	        Parallel.ForEach(paths, (s, state, i) => { ConvertFromIMG(s, Path.Combine(outputPath, Path.GetFileNameWithoutExtension(s) + ".PNG")); });
 
-        }
-        public static void ConvertFromIMG(string inputPath, string outputPath, CompressionMethod compression)
+        }*/
+        public static void ConvertFromIMG(string inputPath, string outputPath)
         {
             Console.WriteLine($"Converting {inputPath} to {outputPath}");
             var img = ToxicRagers.Stainless.Formats.IMG.Load(inputPath);
             
             Bitmap bmp = img.ExportToBitmap();
-            //img.ImportFromBitmap(bmp, compression, forceNoAlpha);
             bmp.Save(outputPath);
         }
     }

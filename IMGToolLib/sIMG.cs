@@ -112,7 +112,7 @@ namespace ToxicRagers.Stainless.Formats
 
                 if (img.version.Minor == 1) { int jpgQuality = (int)br.ReadUInt32(); }
 
-                int planeCount = (img.imageFormat != ImageFormat.PlaneXRGB && img.imageFormat != ImageFormat.PlaneARGB ? 1 : img.imageFormat == ImageFormat.PlaneXRGB ? 3 : 4);
+                int planeCount = img.imageFormat != ImageFormat.PlaneXRGB && img.imageFormat != ImageFormat.PlaneARGB ? 1 : img.advancedFlags.HasFlag(AdvancedFlags.Huffman) && img.imageFormat == ImageFormat.PlaneXRGB ? 3 : 4;
                 if (planeCount > 1)
                 {
 	                for (int i = 0; i < planeCount; i++)
@@ -257,26 +257,65 @@ namespace ToxicRagers.Stainless.Formats
 
             byte[] oB = new byte[4 * width * height];
 
-            foreach (Plane plane in planes.OrderBy(p => p.Index))
+            if (imageFormat == ImageFormat.PlaneARGB || imageFormat == ImageFormat.PlaneXRGB)
             {
-                if (plane.Data == null) { continue; }
-                
-                int planeIndex = plane.Index;
-                if (planes.Count == 3)
-                {
-	                planeIndex++;
-                }
-                for (int i = 0; i < plane.Data.Length && (i * 4) + (3 - plane.Index) < 4 * width * height; i++)
-                {
-                    oB[(i * 4) + (3 - planeIndex)] = plane.Data[i];
-                }
-            }
+	            int pixelSize = 4;
+	            var sortedPlanes = planes.OrderBy(p => p.Index).ToList();
 
-            if (planes.Count == 3)
-            {
-	            for (int i = 0; i < planes.First().Data.Length && (i * 4) + (3) < 4 * width * height; i++)
+
+                /*
+                for (int i = 0, j = 0; i + pixelSize < oB.Length && j + pixelSize < planes.First().Data.Length; i += 4, j += pixelSize)
 	            {
-		            oB[(i * 4) + (3)] = 255;
+		            for (int k = 0; k < sortedPlanes.Count; k++)
+		            {
+
+			            int planeIndex = sortedPlanes[k].Index;
+			            if (planes.Count == 3)
+			            {
+				            planeIndex++;
+			            }
+                        oB[i + (3 - planeIndex)] = sortedPlanes[k].Data[j + k];
+		            }
+	            }
+                /*/
+                foreach (Plane plane in planes.OrderBy(p => p.Index))
+	            {
+		            if (plane.Data == null)
+		            {
+			            continue;
+		            }
+
+		            int planeIndex = plane.Index;
+		            if (planes.Count == 3)
+		            {
+			            planeIndex++;
+		            }
+
+		            for (int i = 0; i < plane.Data.Length && (i * 4) + (3 - plane.Index) < 4 * width * height; i++)
+		            {
+			            oB[(i * 4) + (3 - planeIndex)] = plane.Data[i];
+		            }
+	            }
+                
+	            if (planes.Count == 3)
+	            {
+		            for (int i = 0; i < planes.First().Data.Length && (i * 4) + (3) < 4 * width * height; i++)
+		            {
+			            oB[(i * 4) + (3)] = 255;
+		            }
+	            }
+            }
+            else if (imageFormat == ImageFormat.XRGB || imageFormat == ImageFormat.ARGB)
+            {
+	            Plane plane = planes.First();
+	            int pixelSize = 4;
+
+                for (int i = 0, j = 0; i + pixelSize < oB.Length && j + pixelSize < plane.Data.Length; i += 4, j += pixelSize)
+	            {
+			            oB[i + 3] = plane.Data[j + 0];
+			            oB[i + 2] = plane.Data[j + 1];
+			            oB[i + 1] = plane.Data[j + 2];
+			            oB[i + 0] = plane.Data[j + 3];
 	            }
             }
 
@@ -454,6 +493,7 @@ namespace ToxicRagers.Stainless.Formats
                 {
                     int count = output[i + 0];
                     byte[] colour = new byte[rleBytes];
+
                     for (int k = 0; k < rleBytes; k++)
                     {
 	                    colour[k] = output[i + 1 + k];
