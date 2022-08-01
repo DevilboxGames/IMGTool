@@ -4,3 +4,7 @@ IMGToolLib/obj
 IMGTool/obj
 IMGTests/obj
 IMGTests/bin
+*.dll
+*.pdb
+*.dll
+*.exe

@@ -489,9 +489,23 @@ namespace ToxicRagers.Stainless.Formats
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
-                for (int i = 0; i+rleBytes < output.Length; i += 1 + rleBytes)
+                for (int i = 0; i+rleBytes < output.Length; )
                 {
                     int count = output[i + 0];
+                    bool isRepeat = (count & 0x80) == 0;
+
+                    if (!isRepeat)
+                    {
+	                    count = count & 0x7f;
+	                    for (int k = 1; k <= count; k++)
+	                    {
+							bw.Write(output[i + k]);
+	                    }
+
+	                    i += 1 + count;
+                        continue;
+                    }
+
                     byte[] colour = new byte[rleBytes];
 
                     for (int k = 0; k < rleBytes; k++)
@@ -503,10 +517,12 @@ namespace ToxicRagers.Stainless.Formats
                     {
 	                    for (int k = 0; k < rleBytes; k++)
 	                    {
-							bw.Write(colour[k]); ;
+							bw.Write(colour[k]);
 	                    }
                         
                     }
+
+                    i += 1 + rleBytes;
                 }
 
                 data = ms.ToArray();
