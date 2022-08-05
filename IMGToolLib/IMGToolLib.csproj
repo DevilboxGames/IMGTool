@@ -45,6 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitStream.cs" />
+    <Compile Include="CompressionHuffman.cs" />
+    <Compile Include="CompressionLIC.cs" />
+    <Compile Include="CompressionRLE.cs" />
+    <Compile Include="ICompressionBase.cs" />
     <Compile Include="IMGTool.cs" />
     <Compile Include="FrequencyTable.cs" />
     <Compile Include="Helpers\BC5Unorm.cs" />

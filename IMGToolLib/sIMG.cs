@@ -262,22 +262,7 @@ namespace ToxicRagers.Stainless.Formats
 	            int pixelSize = 4;
 	            var sortedPlanes = planes.OrderBy(p => p.Index).ToList();
 
-
-                /*
-                for (int i = 0, j = 0; i + pixelSize < oB.Length && j + pixelSize < planes.First().Data.Length; i += 4, j += pixelSize)
-	            {
-		            for (int k = 0; k < sortedPlanes.Count; k++)
-		            {
-
-			            int planeIndex = sortedPlanes[k].Index;
-			            if (planes.Count == 3)
-			            {
-				            planeIndex++;
-			            }
-                        oB[i + (3 - planeIndex)] = sortedPlanes[k].Data[j + k];
-		            }
-	            }
-                /*/
+                
                 foreach (Plane plane in planes.OrderBy(p => p.Index))
 	            {
 		            if (plane.Data == null)

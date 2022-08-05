@@ -169,3 +169,5 @@ C:\Dev\CarmAndroid\WADs\Data_Android\DATA\CONTENT\TEXTURES\NEWCHECK.IMG
 1.0 : Compressed : 0 : PlaneXRGB
 C:\Dev\CarmAndroid\WADs\Data_Android\DATA\CONTENT\TEXTURES\NEWCHECK.IMG
 1.0 : Compressed : 0 : PlaneXRGB
+DUMP.IMG
+1.0 : DisableCompressInTextureMemory, Compressed, Disable16bit, DisableDownSample : LIC, SRGB : PlaneXRGB
