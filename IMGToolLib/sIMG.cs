@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using IMGToolLib;
 using Newtonsoft.Json;
 using ToxicRagers.Compression.Huffman;
 using ToxicRagers.Generics;
@@ -112,18 +113,21 @@ namespace ToxicRagers.Stainless.Formats
 
                 if (img.version.Minor == 1) { int jpgQuality = (int)br.ReadUInt32(); }
 
-                int planeCount = img.imageFormat != ImageFormat.PlaneXRGB && img.imageFormat != ImageFormat.PlaneARGB ? 1 : img.advancedFlags.HasFlag(AdvancedFlags.Huffman) && img.imageFormat == ImageFormat.PlaneXRGB ? 3 : 4;
+                int planeCount = img.imageFormat != ImageFormat.PlaneXRGB && img.imageFormat != ImageFormat.PlaneARGB ? 1 :
+	                (img.advancedFlags.HasFlag(AdvancedFlags.Huffman) || img.advancedFlags.HasFlag(AdvancedFlags.LIC)) && img.imageFormat == ImageFormat.PlaneXRGB ? 3 : 4;
                 if (planeCount > 1)
                 {
 	                for (int i = 0; i < planeCount; i++)
 	                {
-		                img.planes.Add(new Plane(i) { Output = new byte[br.ReadUInt32()] });
+                        uint planeSize = br.ReadUInt32();
+
+						img.planes.Add(new Plane(i, img.width, img.height) { Output = new byte[planeSize] });
 	                }
                 }
                 else
                 {
 
-	                img.planes.Add(new Plane(0) { Output = new byte[img.width * img.height * 4], rleBytes = 4});
+	                img.planes.Add(new Plane(0, img.width, img.height) { Output = new byte[img.width * img.height * 4], rleBytes = 4});
                 }
 
                 for (int i = 0; i < img.planes.Count; i++)
@@ -132,12 +136,13 @@ namespace ToxicRagers.Stainless.Formats
                     plane.Output = br.ReadBytes(plane.Output.Length);
                     if (img.basicFlags.HasFlag(BasicFlags.Compressed))
                     {
-                        plane.Decompress((img.advancedFlags.HasFlag(AdvancedFlags.Huffman) ? CompressionMethod.Huffman : CompressionMethod.RLE));
+                        plane.Decompress((img.advancedFlags.HasFlag(AdvancedFlags.Huffman) ? CompressionMethod.Huffman :
+	                        img.advancedFlags.HasFlag(AdvancedFlags.LIC) ? CompressionMethod.LIC : CompressionMethod.RLE));
                     }
                 }
             }
 
-            return img;
+             return img;
         }
 
         public void Save(string path)
@@ -175,9 +180,24 @@ namespace ToxicRagers.Stainless.Formats
 
                         compression = AdvancedFlags.Huffman;
                     }
+                    else if (planes.Any(p => p.Method == CompressionMethod.Huffman && p.PoorCompression))
+					{
+						Parallel.ForEach(
+							planes,
+							p =>
+							{
+								p.Compress(CompressionMethod.LIC);
+							}
+						);
+						compression = AdvancedFlags.LIC;
+                    }
                     else if (planes.Any(p => p.Method == CompressionMethod.Huffman))
                     {
                         compression = AdvancedFlags.Huffman;
+                    }
+                    else if (planes.Any(p => p.Method == CompressionMethod.LIC))
+                    {
+	                    compression = AdvancedFlags.LIC;
                     }
 
                     dataSize = (planes.Count * 4) + planes.Sum(p => p.DataSize);
@@ -228,7 +248,7 @@ namespace ToxicRagers.Stainless.Formats
                 //i =>
                 for (int i = 0; i < planeCount; i++)
                 {
-                    Plane plane = new Plane(i) { Data = iB.ToList().Every(planeCount > 1 ? 4 : planeCount, i).ToArray() };
+                    Plane plane = new Plane(i, bitmap.Width, bitmap.Height) { Data = iB.ToList().Every(planeCount > 1 ? 4 : planeCount, i).ToArray() };
                     plane.Compress(planeCount > 1 ? compression : CompressionMethod.None);
                     planes.Add(plane);
                 }
@@ -320,7 +340,7 @@ namespace ToxicRagers.Stainless.Formats
         public string TreeJson { get; set; }
         public int rleBytes { get; set; } = 1;
         public bool PoorCompression => output.Length / (data.Length * 1.0f) > 0.5f;
-
+        private int width, height;
         public CompressionMethod Method
         {
             get => compressionMethod;
@@ -342,9 +362,11 @@ namespace ToxicRagers.Stainless.Formats
         public int DataSize => output.Length;
         public int Index => index;
 
-        public Plane(int index)
+        public Plane(int index, int width, int height)
         {
             this.index = index;
+            this.width = width;
+            this.height = height;
         }
 
         public void Compress(CompressionMethod method)
@@ -362,6 +384,10 @@ namespace ToxicRagers.Stainless.Formats
                 case CompressionMethod.Huffman:
                     compressHuffman();
                     break;
+
+                case CompressionMethod.LIC:
+                    compressLIC();
+                    break;
             }
         }
 
@@ -378,6 +404,14 @@ namespace ToxicRagers.Stainless.Formats
                 output[i + 2] = data[i + 1];
                 output[i + 3] = data[i + 0];
             }
+        }
+
+        private void compressLIC()
+        {
+	        compressionMethod = CompressionMethod.LIC;
+	        CompressionLIC compressionLIC = new CompressionLIC(rleBytes, width, height);
+	        output = compressionLIC.Compress(data).Result;
+
         }
 
         private void compressRLE()
@@ -464,9 +498,19 @@ namespace ToxicRagers.Stainless.Formats
                 case CompressionMethod.Huffman:
                     decompressHuffman();
                     break;
+                case CompressionMethod.LIC:
+                    decompressLIC();
+                    break;
             }
         }
 
+        private void decompressLIC()
+        {
+	        compressionMethod = CompressionMethod.LIC;
+
+	        CompressionLIC lic = new CompressionLIC(rleBytes, width, height);
+	        data = lic.Decompress(output).Result;
+        }
         private void decompressRLE()
         {
             compressionMethod = CompressionMethod.RLE;

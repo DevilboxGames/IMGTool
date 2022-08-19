@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IMGToolLib;
+using ToxicRagers.Helpers;
 
 namespace IMGTests
 {
@@ -110,15 +111,55 @@ namespace IMGTests
 
 			BitStream bitStream = new BitStream(data);
 
-			byte b1 = bitStream.ReadUnary();
-			byte b2 = bitStream.ReadUnary();
-			byte b3 = bitStream.ReadUnary();
+			byte b1 = bitStream.ReadUnary(1);
+			byte b2 = bitStream.ReadUnary(1);
+			byte b3 = bitStream.ReadUnary(1);
 			byte b4 = bitStream.ReadByte();
 
 			Assert.Equal((byte)0x01, b1);
-			Assert.Equal((byte)0x01, b2);
-			Assert.Equal((byte)0x01, b3);
+			Assert.Equal((byte)0x02, b2);
+			Assert.Equal((byte)0x02, b3);
 			Assert.Equal((byte)0x4d, b4);
+		}
+
+		[Fact]
+		public void BitStream_WriteBits()
+		{
+			BitStream bitStream = new BitStream();
+
+			bitStream.WriteBits(10, 4);
+			bitStream.WriteBits(123, 4, BitStream.WriteBitsFrom.HighBit);
+			bitStream.WriteBits(123, 4, BitStream.WriteBitsFrom.LowBit);
+			bitStream.WriteBits(1,2);
+			bitStream.WriteBits(179,8);
+			bitStream.WriteBits(2, 2);
+
+			byte[] output = bitStream.GetData();
+
+			Assert.Equal(167, output[0]);
+			Assert.Equal(182, output[1]);
+			Assert.Equal(206, output[2]);
+
+
+		}
+
+		[Fact]
+		public void BitStream_WriteBits2()
+		{
+			byte[] data = new byte[] { 0xB9, 0xB4, 0x16, 0x00, 0x45, 0x14, 0xAD, 0xB4, 0x10, 0xC5, 0xDC, 0x06 };
+
+			BitStream bitStream = new BitStream();
+			bitStream.WriteByte(data[0]);
+			bitStream.WriteByte(data[1]);
+			bitStream.WriteBits(0, 1);
+			bitStream.WriteBits(0, 1);
+			bitStream.WriteBits(0, 4);
+
+			byte[] output = bitStream.GetData();
+			for (int i = 0; i < data.Length; i++)
+			{
+				Assert.Equal(data[i], output[i]);
+			}
 		}
 	}
 }
