@@ -158,7 +158,7 @@ namespace IMGToolLib
 
 			for (int y = 0, index = 0; y < _height && !stream.EOF; y++)
 			{
-				for (int x = 0; x < _width && !stream.EOF; x++, index += _blockSize)
+				for (int x = 0; x < _width * _blockSize && !stream.EOF; x++, index += 1)
 				{
 
 					byte n1, n2;
@@ -177,21 +177,16 @@ namespace IMGToolLib
 					{
 						if (x == 0)
 						{
-							n1 = output[index - (_width * _blockSize)];
-							n2 = output[index - (_width * _blockSize - 1)];
+							n1 = output[index - (_width)];
+							n2 = output[index - (_width - 1)];
 						}
 						else
 						{
 							n1 = output[index - 1];
-							n2 = output[index - (_width * _blockSize)];
+							n2 = output[index - (_width)];
 						}
 					}
-
-					if (x == 66 && y == 0)
-					{
-
-						byte tmp = 0;
-					}
+					
 					byte low = Math.Min(n1, n2);
 					byte high = Math.Max(n1, n2);
 					byte delta =(byte)(high - low);

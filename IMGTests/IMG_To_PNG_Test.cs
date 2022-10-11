@@ -6,6 +6,50 @@ namespace IMGTests
 	public class IMG_To_PNG_Test
 	{
 		[Theory]
+		[InlineData("assets/dump.img","converted/dump.png")]
+		public void TestConvertLICPlaneXRGBToPNG(string inputPath, string outputPath)
+		{
+			if (!Directory.Exists("converted"))
+			{
+				Directory.CreateDirectory("converted");
+			}
+			var img = ToxicRagers.Stainless.Formats.IMG.Load(inputPath);
+
+			Bitmap bmp = img.ExportToBitmap();
+			bmp.Save(outputPath);
+
+		}
+
+		[Theory]
+		[InlineData("assets/screwie.img", "converted/screwie.png")]
+		public void TestConvertLICPlaneARGBToPNG(string inputPath, string outputPath)
+		{
+			if (!Directory.Exists("converted"))
+			{
+				Directory.CreateDirectory("converted");
+			}
+			var img = ToxicRagers.Stainless.Formats.IMG.Load(inputPath);
+
+			Bitmap bmp = img.ExportToBitmap();
+			bmp.Save(outputPath);
+
+		}
+
+		[Theory]
+		[InlineData("assets/ulitbot.img", "converted/ulitbot.png")]
+		public void TestConvertLICARGBToPNG(string inputPath, string outputPath)
+		{
+			if (!Directory.Exists("converted"))
+			{
+				Directory.CreateDirectory("converted");
+			}
+			var img = ToxicRagers.Stainless.Formats.IMG.Load(inputPath);
+
+			Bitmap bmp = img.ExportToBitmap();
+			bmp.Save(outputPath);
+
+		}
+		[Theory]
 		[InlineData("assets/chevrn.img","converted/chevrn.png")]
 		public void TestConvertHuffmanPlaneXRGBToPNG(string inputPath, string outputPath)
 		{

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using IMGToolLib;
-using Newtonsoft.Json;
 using ToxicRagers.Compression.Huffman;
 using ToxicRagers.Generics;
 using ToxicRagers.Helpers;
@@ -126,8 +125,12 @@ namespace ToxicRagers.Stainless.Formats
                 }
                 else
                 {
+	                int dataSize =
+		                img.advancedFlags.HasFlag(AdvancedFlags.Huffman) || img.advancedFlags.HasFlag(AdvancedFlags.LIC)
+			                ? fileSize
+			                : img.width * img.height * 4;
 
-	                img.planes.Add(new Plane(0, img.width, img.height) { Output = new byte[img.width * img.height * 4], rleBytes = 4});
+					img.planes.Add(new Plane(0, img.width, img.height) { Output = new byte[dataSize], rleBytes = 4});
                 }
 
                 for (int i = 0; i < img.planes.Count; i++)
@@ -147,12 +150,6 @@ namespace ToxicRagers.Stainless.Formats
 
         public void Save(string path)
         {
-	        int planeNum = 0;
-	        foreach(Plane plane in planes)
-            {
-	            File.WriteAllText($"{Path.GetFileNameWithoutExtension(path)}_plane{planeNum}_tree.json", plane.TreeJson);
-	            planeNum++;
-            }
 
             using (BinaryWriter bw = new BinaryWriter(new FileStream(path, FileMode.Create)))
             {
@@ -230,7 +227,7 @@ namespace ToxicRagers.Stainless.Formats
 
         public void ImportFromBitmap(Bitmap bitmap, CompressionMethod compression = CompressionMethod.RLE, bool forceNoAlpha = false)
         {
-            if (bitmap.Width <= 32 || bitmap.Height <= 32) { bitmap = bitmap.Resize(64, 64); }
+            //if (bitmap.Width <= 32 || bitmap.Height <= 32) { bitmap = bitmap.Resize(64, 64); }
 
             width = bitmap.Width;
             height = bitmap.Height;
@@ -244,15 +241,15 @@ namespace ToxicRagers.Stainless.Formats
             Marshal.Copy(bmpdata.Scan0, iB, 0, bmpdata.Stride * bmpdata.Height);
             bitmap.UnlockBits(bmpdata);
 
-            //Parallel.For(0, planeCount,
-                //i =>
-                for (int i = 0; i < planeCount; i++)
+            Parallel.For(0, planeCount,
+                i =>
+                //for (int i = 0; i < planeCount; i++)
                 {
                     Plane plane = new Plane(i, bitmap.Width, bitmap.Height) { Data = iB.ToList().Every(planeCount > 1 ? 4 : planeCount, i).ToArray() };
                     plane.Compress(planeCount > 1 ? compression : CompressionMethod.None);
                     planes.Add(plane);
                 }
-            //);
+            );
 
             switch (planeCount)
             {
@@ -318,9 +315,18 @@ namespace ToxicRagers.Stainless.Formats
                 for (int i = 0, j = 0; i + pixelSize < oB.Length && j + pixelSize < plane.Data.Length; i += 4, j += pixelSize)
 	            {
 			            oB[i + 3] = plane.Data[j + 0];
-			            oB[i + 2] = plane.Data[j + 1];
-			            oB[i + 1] = plane.Data[j + 2];
-			            oB[i + 0] = plane.Data[j + 3];
+			            if (advancedFlags.HasFlag(AdvancedFlags.LIC))
+						{
+							oB[i + 2] = plane.Data[j + 3];
+							oB[i + 1] = plane.Data[j + 2];
+							oB[i + 0] = plane.Data[j + 1];
+						}
+			            else
+			            {
+				            oB[i + 2] = plane.Data[j + 1];
+				            oB[i + 1] = plane.Data[j + 2];
+				            oB[i + 0] = plane.Data[j + 3];
+			            }
 	            }
             }
 
@@ -337,7 +343,6 @@ namespace ToxicRagers.Stainless.Formats
         byte[] data;
         CompressionMethod compressionMethod = CompressionMethod.None;
         byte[] output;
-        public string TreeJson { get; set; }
         public int rleBytes { get; set; } = 1;
         public bool PoorCompression => output.Length / (data.Length * 1.0f) > 0.5f;
         private int width, height;
@@ -458,7 +463,7 @@ namespace ToxicRagers.Stainless.Formats
             Tree tree = new Tree();
 
             tree.BuildTree(data);
-            TreeJson = tree.Json;
+            
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
@@ -508,7 +513,7 @@ namespace ToxicRagers.Stainless.Formats
         {
 	        compressionMethod = CompressionMethod.LIC;
 
-	        CompressionLIC lic = new CompressionLIC(rleBytes, width, height);
+	        CompressionLIC lic = new CompressionLIC(1, width, height);
 	        data = lic.Decompress(output).Result;
         }
         private void decompressRLE()
@@ -580,9 +585,7 @@ namespace ToxicRagers.Stainless.Formats
                 int tmp6 = (int)br.ReadUInt32();    // 8
 
                 tree.FromByteArray(br.ReadBytes(huffmanTableLength), leafCount);
-                
-                File.WriteAllText($"decompress_plane{index}_tree.json", TreeJson);
-	             
+
                 bw.Write(tree.Decode(br.ReadBytes(output.Length - (int)br.BaseStream.Position)));
 
                 data = msOut.ToArray();

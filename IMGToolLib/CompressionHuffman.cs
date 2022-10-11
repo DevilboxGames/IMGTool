@@ -10,13 +10,12 @@ namespace ToxicRagers.Compression
 {
 	public class CompressionHuffman : ICompressionBase
 	{
-		public string TreeJson { get; set; }
 		public async Task<byte[]> Compress(byte[] data)
 		{
 			Tree tree = new Tree();
 
 			tree.BuildTree(data);
-			TreeJson = tree.Json;
+			
 			using (MemoryStream ms = new MemoryStream())
 			using (BinaryWriter bw = new BinaryWriter(ms))
 			{

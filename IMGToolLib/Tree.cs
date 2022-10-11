@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace ToxicRagers.Compression.Huffman
 {
     public class Tree
     {
         List<Node> nodes = new List<Node>();
-        public string Json { get; set; }
         Node root;
 
         FrequencyTable frequencies = new FrequencyTable();
@@ -61,8 +59,6 @@ namespace ToxicRagers.Compression.Huffman
             }
 
             root = nodes.FirstOrDefault();
-
-            Json = JsonConvert.SerializeObject(root, Formatting.Indented);
         }
 
         public void FromByteArray(byte[] array, int leafCount)
@@ -212,8 +208,6 @@ namespace ToxicRagers.Compression.Huffman
             }
 
             root = nodes.FirstOrDefault();
-
-            Json = JsonConvert.SerializeObject(root, Formatting.Indented);
         }
 
         public byte[] ToByteArray()

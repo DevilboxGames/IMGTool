@@ -241,3 +241,27 @@ dump-lic.img
 1.1 : Compressed, DisableDownSample, DisableMipMaps : LIC, DontAutoJPEG : PlaneXRGB
 screwie-lic.img
 1.1 : Compressed, DisableDownSample, DisableMipMaps : LIC, DontAutoJPEG : PlaneARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+ulitbot.img
+1.0 : Compressed, OneBitAlpha : LIC : ARGB
+pickups.img
+1.0 : DisableCompressInTextureMemory, OneBitAlpha, Disable16bit, DisableDownSample, DisableMipMaps : 0 : CLUT8
